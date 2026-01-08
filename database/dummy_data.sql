@@ -1,6 +1,8 @@
 -- ============================================
 -- DUMMY DATA FOR DIGITAL LIBRARY SYSTEM
 -- ============================================
+-- IMPORTANT: Run schema.sql first before importing this file
+-- This file assumes admin user exists with ID 1
 
 -- ============================================
 -- INSERT USERS (Pengunjung)
@@ -84,38 +86,38 @@ INSERT INTO visitors (name, visit_purpose, visit_date) VALUES
 
 -- Peminjaman yang sudah dikembalikan (return_date terisi)
 INSERT INTO borrowed_books (user_id, book_id, borrowed_date, return_date) VALUES
--- User ID 2 (budi_santoso) - sudah mengembalikan
-(2, 1, '2024-01-20 10:00:00', '2024-01-27 14:30:00'),  -- Laskar Pelangi
-(2, 6, '2024-02-05 09:15:00', '2024-02-12 11:20:00'),  -- Harry Potter
+-- budi_santoso - sudah mengembalikan
+((SELECT id FROM users WHERE username = 'budi_santoso'), 1, '2024-01-20 10:00:00', '2024-01-27 14:30:00'),  -- Laskar Pelangi
+((SELECT id FROM users WHERE username = 'budi_santoso'), 6, '2024-02-05 09:15:00', '2024-02-12 11:20:00'),  -- Harry Potter
 
--- User ID 3 (siti_rahma) - sudah mengembalikan
-(3, 3, '2024-01-25 11:30:00', '2024-02-01 10:15:00'),  -- Ayat-Ayat Cinta
-(3, 11, '2024-02-10 13:00:00', '2024-02-17 15:45:00'), -- Sejarah Indonesia
-(3, 12, '2024-03-01 09:30:00', '2024-03-08 14:00:00'), -- Pengantar Ilmu Komputer
+-- siti_rahma - sudah mengembalikan
+((SELECT id FROM users WHERE username = 'siti_rahma'), 3, '2024-01-25 11:30:00', '2024-02-01 10:15:00'),  -- Ayat-Ayat Cinta
+((SELECT id FROM users WHERE username = 'siti_rahma'), 11, '2024-02-10 13:00:00', '2024-02-17 15:45:00'), -- Sejarah Indonesia
+((SELECT id FROM users WHERE username = 'siti_rahma'), 12, '2024-03-01 09:30:00', '2024-03-08 14:00:00'), -- Pengantar Ilmu Komputer
 
--- User ID 4 (ahmad_fauzi) - sudah mengembalikan
-(4, 5, '2024-02-15 10:45:00', '2024-02-22 16:20:00'),  -- Negeri 5 Menara
-(4, 16, '2024-03-05 11:00:00', '2024-03-12 13:30:00'), -- Clean Code
+-- ahmad_fauzi - sudah mengembalikan
+((SELECT id FROM users WHERE username = 'ahmad_fauzi'), 5, '2024-02-15 10:45:00', '2024-02-22 16:20:00'),  -- Negeri 5 Menara
+((SELECT id FROM users WHERE username = 'ahmad_fauzi'), 16, '2024-03-05 11:00:00', '2024-03-12 13:30:00'), -- Clean Code
 
--- User ID 5 (dewi_lestari) - sudah mengembalikan
-(5, 4, '2024-02-20 14:15:00', '2024-02-27 10:45:00'),  -- Perahu Kertas
-(5, 8, '2024-03-10 09:00:00', '2024-03-17 14:15:00'),  -- 1984
+-- dewi_lestari - sudah mengembalikan
+((SELECT id FROM users WHERE username = 'dewi_lestari'), 4, '2024-02-20 14:15:00', '2024-02-27 10:45:00'),  -- Perahu Kertas
+((SELECT id FROM users WHERE username = 'dewi_lestari'), 8, '2024-03-10 09:00:00', '2024-03-17 14:15:00'),  -- 1984
 
--- User ID 6 (rudi_hartono) - sudah mengembalikan
-(6, 13, '2024-03-15 10:30:00', '2024-03-22 15:00:00'), -- Ekonomi Makro
-(6, 20, '2024-04-01 11:45:00', '2024-04-08 13:20:00'); -- JavaScript
+-- rudi_hartono - sudah mengembalikan
+((SELECT id FROM users WHERE username = 'rudi_hartono'), 13, '2024-03-15 10:30:00', '2024-03-22 15:00:00'), -- Ekonomi Makro
+((SELECT id FROM users WHERE username = 'rudi_hartono'), 20, '2024-04-01 11:45:00', '2024-04-08 13:20:00'); -- JavaScript
 
 -- Peminjaman yang masih aktif (return_date NULL)
 INSERT INTO borrowed_books (user_id, book_id, borrowed_date, return_date) VALUES
 -- Peminjaman aktif (belum dikembalikan)
-(2, 2, '2025-12-15 09:00:00', NULL),  -- Budi meminjam Bumi Manusia
-(3, 7, '2025-12-20 10:30:00', NULL),  -- Siti meminjam The Hobbit
-(4, 9, '2025-12-22 11:15:00', NULL),  -- Ahmad meminjam To Kill a Mockingbird
-(5, 10, '2025-12-28 14:00:00', NULL), -- Dewi meminjam The Great Gatsby
-(6, 14, '2026-01-02 09:30:00', NULL), -- Rudi meminjam Filsafat Ilmu
-(2, 15, '2026-01-03 10:45:00', NULL), -- Budi meminjam Psikologi Pendidikan
-(3, 17, '2026-01-05 13:20:00', NULL), -- Siti meminjam Python for Data Science
-(4, 18, '2026-01-06 15:00:00', NULL); -- Ahmad meminjam Design Patterns
+((SELECT id FROM users WHERE username = 'budi_santoso'), 2, '2025-12-15 09:00:00', NULL),  -- Budi meminjam Bumi Manusia
+((SELECT id FROM users WHERE username = 'siti_rahma'), 7, '2025-12-20 10:30:00', NULL),  -- Siti meminjam The Hobbit
+((SELECT id FROM users WHERE username = 'ahmad_fauzi'), 9, '2025-12-22 11:15:00', NULL),  -- Ahmad meminjam To Kill a Mockingbird
+((SELECT id FROM users WHERE username = 'dewi_lestari'), 10, '2025-12-28 14:00:00', NULL), -- Dewi meminjam The Great Gatsby
+((SELECT id FROM users WHERE username = 'rudi_hartono'), 14, '2026-01-02 09:30:00', NULL), -- Rudi meminjam Filsafat Ilmu
+((SELECT id FROM users WHERE username = 'budi_santoso'), 15, '2026-01-03 10:45:00', NULL), -- Budi meminjam Psikologi Pendidikan
+((SELECT id FROM users WHERE username = 'siti_rahma'), 17, '2026-01-05 13:20:00', NULL), -- Siti meminjam Python for Data Science
+((SELECT id FROM users WHERE username = 'ahmad_fauzi'), 18, '2026-01-06 15:00:00', NULL); -- Ahmad meminjam Design Patterns
 
 -- ============================================
 -- UPDATE available_copies untuk buku yang dipinjam

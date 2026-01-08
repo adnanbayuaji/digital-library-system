@@ -116,6 +116,45 @@ body.menu-open {
         padding-left: 0.5rem;
         padding-right: 0.5rem;
     }
+    
+    /* Stat cards mobile optimization */
+    .stat-card {
+        padding: 1.2rem !important;
+        min-height: auto !important;
+    }
+    
+    .stat-card h3 {
+        font-size: 2rem !important;
+        margin-bottom: 0.3rem;
+    }
+    
+    .stat-card p {
+        font-size: 0.85rem !important;
+        margin-bottom: 0;
+    }
+    
+    .stat-card .icon {
+        font-size: 2.5rem !important;
+        opacity: 0.15;
+    }
+    
+    /* Card header responsive */
+    .card-header {
+        padding: 0.75rem 1rem;
+        font-size: 0.95rem;
+    }
+    
+    .card-header .btn-group,
+    .card-header > div {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    .card-header .btn {
+        flex: 0 0 auto;
+        white-space: nowrap;
+    }
 }
 
 /* Mobile phones */
@@ -154,5 +193,33 @@ body.menu-open {
     .alert {
         font-size: 0.9rem;
         padding: 0.75rem;
+    }
+    
+    /* Stat cards full width on mobile */
+    .stat-card {
+        margin-bottom: 0.75rem;
+    }
+    
+    .stat-card h3 {
+        font-size: 2.5rem !important;
+    }
+    
+    .stat-card p {
+        font-size: 0.9rem !important;
+    }
+    
+    /* Card header improvements */
+    .card-header {
+        padding: 0.75rem;
+    }
+    
+    .card-header .btn-sm {
+        font-size: 0.75rem;
+        padding: 0.35rem 0.6rem;
+    }
+    
+    /* Better button text wrapping */
+    .card-header .btn span {
+        white-space: nowrap;
     }
 }

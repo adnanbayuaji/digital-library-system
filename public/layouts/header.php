@@ -8,6 +8,7 @@ require_once __DIR__ . '/../../config/language.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $page_title ?? __('dashboard.title'); ?> - <?php echo __('site_name'); ?></title>
+    <link rel="icon" type="image/png" href="<?php echo $assets_path; ?>/images/logo.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
@@ -49,6 +50,25 @@ require_once __DIR__ . '/../../config/language.php';
             font-size: 1.2rem;
             margin: 0;
             padding: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+        }
+        
+        .navbar-brand img {
+            height: 40px;
+            width: 40px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+        
+        .navbar-brand .full-name {
+            display: inline;
+        }
+        
+        .navbar-brand .short-name {
+            display: none;
         }
         
         .navbar-brand i {
@@ -369,17 +389,49 @@ require_once __DIR__ . '/../../config/language.php';
                 display: none !important;
             }
             
-            .navbar-brand {
-                font-size: 1rem;
+            .navbar {
+                padding: 0.5rem 0.75rem;
             }
             
-            .navbar-brand i {
-                font-size: 1.1rem;
+            .navbar .container-fluid {
+                gap: 0.5rem;
+            }
+            
+            .navbar-brand {
+                font-size: 0.95rem;
+                gap: 0.3rem;
+                flex: 1;
+                min-width: 0;
+            }
+            
+            .navbar-brand img {
+                height: 32px;
+                width: 32px;
+            }
+            
+            .navbar-brand .full-name {
+                display: none;
+            }
+            
+            .navbar-brand .short-name {
+                display: inline;
+            }
+            
+            .navbar-actions {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                flex-shrink: 0;
             }
             
             .language-switcher .dropdown-toggle {
-                padding: 0.3rem 0.6rem;
+                padding: 0.4rem 0.5rem;
                 font-size: 0.85rem;
+            }
+            
+            .navbar-toggler {
+                padding: 0.4rem 0.5rem;
+                font-size: 1rem;
             }
             
             .page-header h1 {
@@ -425,7 +477,9 @@ require_once __DIR__ . '/../../config/language.php';
     <nav class="navbar navbar-dark fixed-top">
         <div class="container-fluid">
             <a class="navbar-brand" href="dashboard.php">
-                <i class="bi bi-book-fill"></i><?php echo __('site_name'); ?>
+                <img src="<?php echo $assets_path; ?>/images/logo.png" alt="Logo">
+                <span class="full-name"><?php echo __('site_name'); ?></span>
+                <span class="short-name">Sudut Baca</span>
             </a>
             <div class="navbar-actions">
                 <!-- Language Switcher -->

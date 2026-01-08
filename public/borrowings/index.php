@@ -64,8 +64,8 @@ $stats = $borrowingModel->getStatistics();
     <?php endif; ?>
 
     <!-- Statistics Cards -->
-    <div class="row mb-4">
-        <div class="col-md-4">
+    <div class="row g-3 mb-4">
+        <div class="col-12 col-sm-6 col-md-4">
             <div class="stat-card bg-gradient-warning">
                 <div class="position-relative">
                     <h3><?php echo $stats['total_borrowed']; ?></h3>
@@ -74,7 +74,7 @@ $stats = $borrowingModel->getStatistics();
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-12 col-sm-6 col-md-4">
             <div class="stat-card bg-gradient-danger">
                 <div class="position-relative">
                     <h3><?php echo $stats['total_overdue']; ?></h3>
@@ -83,7 +83,7 @@ $stats = $borrowingModel->getStatistics();
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-12 col-sm-6 col-md-4">
             <div class="stat-card bg-gradient-success">
                 <div class="position-relative">
                     <h3><?php echo $stats['total_returned']; ?></h3>
@@ -95,18 +95,20 @@ $stats = $borrowingModel->getStatistics();
     </div>
 
     <div class="card">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <span><i class="bi bi-list"></i> <?php echo current_lang() == 'id' ? 'Daftar Peminjaman' : 'Borrowing List'; ?></span>
-            <div>
-                <a href="?filter=active" class="btn btn-sm btn-outline-primary <?php echo $filter === 'active' ? 'active' : ''; ?>">
-                    <i class="bi bi-bookmark"></i> <?php echo current_lang() == 'id' ? 'Aktif' : 'Active'; ?>
-                </a>
-                <a href="?filter=all" class="btn btn-sm btn-outline-secondary <?php echo $filter === 'all' ? 'active' : ''; ?>">
-                    <i class="bi bi-list-ul"></i> <?php echo current_lang() == 'id' ? 'Semua' : 'All'; ?>
-                </a>
-                <a href="borrow.php" class="btn btn-light btn-sm">
-                    <i class="bi bi-plus-circle"></i> <?php echo current_lang() == 'id' ? 'Pinjam Buku' : 'Borrow Book'; ?>
-                </a>
+        <div class="card-header">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-2">
+                <span><i class="bi bi-list"></i> <?php echo current_lang() == 'id' ? 'Daftar Peminjaman' : 'Borrowing List'; ?></span>
+                <div class="d-flex flex-wrap gap-2">
+                    <a href="?filter=active" class="btn btn-sm btn-outline-primary <?php echo $filter === 'active' ? 'active' : ''; ?>">
+                        <i class="bi bi-bookmark"></i> <?php echo current_lang() == 'id' ? 'Aktif' : 'Active'; ?>
+                    </a>
+                    <a href="?filter=all" class="btn btn-sm btn-outline-secondary <?php echo $filter === 'all' ? 'active' : ''; ?>">
+                        <i class="bi bi-list-ul"></i> <?php echo current_lang() == 'id' ? 'Semua' : 'All'; ?>
+                    </a>
+                    <a href="borrow.php" class="btn btn-light btn-sm">
+                        <i class="bi bi-plus-circle"></i> <span class="d-none d-sm-inline"><?php echo current_lang() == 'id' ? 'Pinjam Buku' : 'Borrow Book'; ?></span><span class="d-inline d-sm-none"><?php echo current_lang() == 'id' ? 'Pinjam' : 'Borrow'; ?></span>
+                    </a>
+                </div>
             </div>
         </div>
         <div class="card-body">

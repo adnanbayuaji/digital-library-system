@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sudut Baca Kreatif Muttu</title>
+    <link rel="icon" type="image/png" href="public/assets/images/logo.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -56,20 +57,19 @@
         }
 
         .logo-icon {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 20px;
+            width: 120px;
+            height: 120px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 1rem;
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
         }
 
-        .logo-icon i {
-            font-size: 2.5rem;
-            color: white;
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.2));
         }
 
         .welcome-title {
@@ -212,12 +212,8 @@
             }
 
             .logo-icon {
-                width: 70px;
-                height: 70px;
-            }
-
-            .logo-icon i {
-                font-size: 2rem;
+                width: 100px;
+                height: 100px;
             }
 
             .nav-btn {
@@ -249,7 +245,7 @@
             <!-- Logo Section -->
             <div class="logo-section">
                 <div class="logo-icon">
-                    <i class="fas fa-book-reader"></i>
+                    <img src="public/assets/images/logo.png" alt="Logo Sudut Baca Kreatif Muttu">
                 </div>
                 <h1 class="welcome-title">Sudut Baca Kreatif Muttu</h1>
                 <p class="welcome-subtitle">Selamat datang di sudut baca kreatif</p>
@@ -260,7 +256,7 @@
                 <!-- Book Stock Button -->
                 <a href="public/book_stock.php" class="nav-btn btn-primary-custom">
                     <div class="btn-icon">
-                        <i class="fas fa-books"></i>
+                        <i class="fas fa-book-reader"></i>
                     </div>
                     <div class="btn-content">
                         <div class="btn-title">Stok Buku</div>

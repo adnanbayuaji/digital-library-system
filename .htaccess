@@ -1,0 +1,11 @@
+# This file contains configuration settings for URL rewriting and access control.
+
+# Prevent directory listing
+Options -Indexes
+
+# Deny access to sensitive files
+<FilesMatch "\.(env|ini|log|txt|md)$">
+    Order Allow,Deny
+    Deny from all
+
+</FilesMatch>

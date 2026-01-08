@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Hamburger Menu</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .navbar {
+            background: var(--primary-gradient);
+            padding: 0.75rem 1rem;
+            height: 60px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1050;
+        }
+        
+        .navbar .container-fluid {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .navbar-brand {
+            color: white !important;
+            font-weight: 600;
+            font-size: 1.2rem;
+            text-decoration: none;
+        }
+        
+        .navbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .navbar-toggler {
+            border: 2px solid rgba(255,255,255,0.7) !important;
+            padding: 0.5rem !important;
+            background: transparent;
+            cursor: pointer;
+        }
+        
+        .navbar-toggler:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+            width: 1.5rem;
+            height: 1.5rem;
+            display: inline-block;
+        }
+        
+        .mobile-menu {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            right: 0;
+            background: white;
+            z-index: 1040;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            max-height: calc(100vh - 60px);
+            overflow-y: auto;
+            
+            /* Hidden by default */
+            visibility: hidden;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+        }
+        
+        .mobile-menu.show {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .mobile-menu .nav-link {
+            display: block;
+            padding: 1rem 1.5rem;
+            color: #333;
+            text-decoration: none;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .mobile-menu .nav-link:hover {
+            background: #f8f9fa;
+            color: #667eea;
+        }
+        
+        .content {
+            margin-top: 80px;
+            padding: 2rem;
+        }
+        
+        .debug-info {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #333;
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            max-width: 300px;
+        }
+        
+        @media (min-width: 768px) {
+            .navbar-toggler {
+                display: none;
+            }
+            .mobile-menu {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-book-fill"></i> Test Menu
+            </a>
+            <div class="navbar-actions">
+                <button class="navbar-toggler" type="button" id="mobileMenuToggle">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#" class="nav-link">
+            <i class="bi bi-house"></i> Dashboard
+        </a>
+        <a href="#" class="nav-link">
+            <i class="bi bi-book"></i> Books
+        </a>
+        <a href="#" class="nav-link">
+            <i class="bi bi-people"></i> Users
+        </a>
+        <a href="#" class="nav-link">
+            <i class="bi bi-gear"></i> Settings
+        </a>
+    </div>
+    
+    <div class="content">
+        <h1>Test Hamburger Menu</h1>
+        <p>Klik hamburger icon di pojok kanan atas (hanya terlihat di mobile/tablet view)</p>
+        
+        <div class="alert alert-info">
+            <strong>Cara Test:</strong>
+            <ol>
+                <li>Buka Developer Tools (F12)</li>
+                <li>Toggle Device Toolbar (Ctrl+Shift+M)</li>
+                <li>Pilih device mobile (iPhone, Samsung, dll)</li>
+                <li>Klik hamburger icon (☰)</li>
+                <li>Menu harus muncul dengan animasi slide down</li>
+            </ol>
+        </div>
+        
+        <button class="btn btn-primary" id="testBtn">Test Toggle Menu</button>
+    </div>
+    
+    <div class="debug-info" id="debugInfo">
+        <div>Status: <span id="status">Ready</span></div>
+        <div>Menu: <span id="menuStatus">Hidden</span></div>
+        <div>Clicks: <span id="clickCount">0</span></div>
+    </div>
+    
+    <script>
+        let clickCount = 0;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 DOM Loaded');
+            
+            const menuToggle = document.getElementById('mobileMenuToggle');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const testBtn = document.getElementById('testBtn');
+            const statusEl = document.getElementById('status');
+            const menuStatusEl = document.getElementById('menuStatus');
+            const clickCountEl = document.getElementById('clickCount');
+            
+            console.log('Toggle button:', menuToggle);
+            console.log('Mobile menu:', mobileMenu);
+            
+            if (menuToggle && mobileMenu) {
+                statusEl.textContent = 'Initialized ✅';
+                
+                // Hamburger click
+                menuToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    clickCount++;
+                    clickCountEl.textContent = clickCount;
+                    
+                    console.log('🍔 Hamburger clicked!', clickCount);
+                    
+                    if (mobileMenu.classList.contains('show')) {
+                        mobileMenu.classList.remove('show');
+                        document.body.classList.remove('menu-open');
+                        menuStatusEl.textContent = 'Hidden 🔴';
+                        console.log('❌ Menu closed');
+                    } else {
+                        mobileMenu.classList.add('show');
+                        document.body.classList.add('menu-open');
+                        menuStatusEl.textContent = 'Visible ✅';
+                        console.log('✅ Menu opened');
+                    }
+                });
+                
+                // Test button
+                testBtn.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('show');
+                    menuStatusEl.textContent = mobileMenu.classList.contains('show') ? 'Visible ✅' : 'Hidden 🔴';
+                });
+                
+                // Close on outside click
+                document.addEventListener('click', function(e) {
+                    if (mobileMenu.classList.contains('show') && 
+                        !mobileMenu.contains(e.target) && 
+                        !menuToggle.contains(e.target)) {
+                        mobileMenu.classList.remove('show');
+                        document.body.classList.remove('menu-open');
+                        menuStatusEl.textContent = 'Hidden 🔴';
+                        console.log('👆 Menu closed by outside click');
+                    }
+                });
+                
+                // Close on link click
+                const menuLinks = mobileMenu.querySelectorAll('.nav-link');
+                menuLinks.forEach(function(link) {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        mobileMenu.classList.remove('show');
+                        document.body.classList.remove('menu-open');
+                        menuStatusEl.textContent = 'Hidden 🔴';
+                        console.log('🔗 Menu closed by link click');
+                    });
+                });
+                
+                console.log('✅ Mobile menu initialized successfully');
+            } else {
+                statusEl.textContent = 'Error ❌';
+                console.error('❌ Mobile menu elements not found!');
+            }
+        });
+    </script>
+</body>
+</html>

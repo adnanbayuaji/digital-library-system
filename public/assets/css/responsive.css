@@ -1,5 +1,96 @@
 /* Mobile Responsive Styles for Digital Library System */
 
+/* ===================================
+   GENERAL LAYOUT IMPROVEMENTS
+   =================================== */
+
+/* Make main content area wider and use full width */
+main.col-md-9.ms-sm-auto.col-lg-10 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    max-width: 100%;
+}
+
+/* Remove card body padding to maximize table width */
+.card-body {
+    padding: 0;
+}
+
+/* Table responsive container improvements */
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 0;
+}
+
+/* Table styling for better readability */
+.table {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+.table thead th {
+    position: sticky;
+    top: 0;
+    background-color: #f8f9fa;
+    z-index: 10;
+    border-bottom: 2px solid #dee2e6;
+    white-space: nowrap;
+    padding: 0.75rem;
+    font-weight: 600;
+}
+
+.table tbody td {
+    padding: 0.75rem;
+    vertical-align: middle;
+}
+
+.table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* Better spacing for table content */
+.table td strong {
+    display: block;
+    margin-bottom: 0.2rem;
+}
+
+.table td small {
+    display: block;
+    color: #6c757d;
+}
+
+/* Badge improvements */
+.table .badge {
+    font-size: 0.75rem;
+    padding: 0.35em 0.65em;
+    font-weight: 500;
+}
+
+/* Action buttons spacing */
+.table td .btn {
+    margin: 0 0.1rem;
+}
+
+.table td .btn:first-child {
+    margin-left: 0;
+}
+
+.table td .btn:last-child {
+    margin-right: 0;
+}
+
+/* Card header should have padding */
+.card-header {
+    padding: 1rem 1.25rem;
+}
+
+/* Page header adjustments */
+.page-header {
+    margin-bottom: 1.5rem;
+}
+
 /* Navbar adjustments */
 .navbar {
     z-index: 1050 !important;
@@ -30,6 +121,35 @@
     position: relative;
 }
 
+.table-responsive::after {
+    content: '← Scroll →';
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: rgba(102, 126, 234, 0.9);
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    z-index: 10;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+@media (max-width: 767.98px) {
+    .table-responsive::after {
+        opacity: 1;
+        animation: pulse 2s infinite;
+    }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+}
+
 .scroll-hint {
     position: absolute;
     bottom: 10px;
@@ -54,25 +174,86 @@ body.menu-open {
 }
 
 /* Tablet and below */
+@media (max-width: 991.98px) {
+    /* Full width on tablet */
+    main.col-md-9.ms-sm-auto.col-lg-10 {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+    
+    .page-header {
+        margin-bottom: 1rem;
+    }
+    
+    .page-header h1 {
+        font-size: 1.75rem;
+    }
+    
+    /* Stat cards responsive */
+    .row.g-3 {
+        margin-left: -0.5rem;
+        margin-right: -0.5rem;
+    }
+    
+    .row.g-3 > * {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+}
+
 @media (max-width: 767.98px) {
+    /* Full width for mobile */
+    main.col-md-9.ms-sm-auto.col-lg-10 {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+    
     .container {
         padding: 10px;
     }
     
-    /* Table Responsive */
+    /* Table Responsive - maximize width */
+    .card {
+        margin-bottom: 1rem;
+        border-radius: 0.5rem;
+    }
+    
+    .card-body {
+        padding: 0 !important;
+    }
+    
     .table-responsive {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
+        border-radius: 0 0 0.5rem 0.5rem;
     }
     
     .table {
         font-size: 0.85rem;
+        margin-bottom: 0;
     }
     
     .table th,
     .table td {
-        padding: 0.5rem;
+        padding: 0.6rem 0.5rem;
         white-space: nowrap;
+    }
+    
+    .table thead th {
+        font-size: 0.8rem;
+        font-weight: 600;
+        background-color: #f8f9fa;
+    }
+    
+    /* Compact action buttons in table */
+    .table .btn-sm {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+        margin: 0 0.1rem;
+    }
+    
+    .table .btn-sm i {
+        font-size: 0.9rem;
     }
     
     /* Button Groups */
@@ -87,13 +268,29 @@ body.menu-open {
         margin: 0;
     }
     
-    /* Cards */
-    .card {
-        margin-bottom: 1rem;
+    /* Card header responsive */
+    .card-header {
+        padding: 0.75rem 1rem;
+        font-size: 0.95rem;
     }
     
-    .card-body {
-        padding: 1rem;
+    .card-header .d-flex {
+        flex-direction: column;
+        gap: 0.75rem;
+        align-items: stretch !important;
+    }
+    
+    .card-header .btn-group,
+    .card-header > div > div {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    .card-header .btn {
+        flex: 0 1 auto;
+        white-space: nowrap;
+        font-size: 0.85rem;
     }
     
     /* Forms */
@@ -119,12 +316,12 @@ body.menu-open {
     
     /* Stat cards mobile optimization */
     .stat-card {
-        padding: 1.2rem !important;
+        padding: 1rem !important;
         min-height: auto !important;
     }
     
     .stat-card h3 {
-        font-size: 2rem !important;
+        font-size: 1.75rem !important;
         margin-bottom: 0.3rem;
     }
     
@@ -159,6 +356,12 @@ body.menu-open {
 
 /* Mobile phones */
 @media (max-width: 576px) {
+    /* Maximum width utilization */
+    main.col-md-9.ms-sm-auto.col-lg-10 {
+        padding-left: 0.25rem;
+        padding-right: 0.25rem;
+    }
+    
     /* Stack columns on very small screens */
     .col-md-6,
     .col-lg-3,
@@ -174,52 +377,126 @@ body.menu-open {
     }
     
     /* Adjust page header */
+    .page-header {
+        margin-bottom: 1rem;
+        padding: 0 0.5rem;
+    }
+    
     .page-header h1 {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
     }
     
     /* Breadcrumb */
     .breadcrumb {
-        font-size: 0.85rem;
+        font-size: 0.8rem;
+        padding: 0.5rem;
+    }
+    
+    /* Table adjustments */
+    .table {
+        font-size: 0.8rem;
+    }
+    
+    .table th,
+    .table td {
+        padding: 0.5rem 0.4rem;
+    }
+    
+    .table thead th {
+        font-size: 0.75rem;
     }
     
     /* Action buttons in tables */
-    .btn-sm {
-        padding: 0.3rem 0.6rem;
-        font-size: 0.8rem;
+    .table .btn-sm {
+        padding: 0.25rem 0.4rem;
+        font-size: 0.7rem;
+    }
+    
+    .table .btn-sm i {
+        font-size: 0.85rem;
+    }
+    
+    /* Badge sizes */
+    .badge {
+        font-size: 0.7rem;
+        padding: 0.25rem 0.5rem;
     }
     
     /* Alert messages */
     .alert {
         font-size: 0.9rem;
         padding: 0.75rem;
+        margin: 0.5rem 0.5rem 1rem 0.5rem;
     }
     
     /* Stat cards full width on mobile */
     .stat-card {
         margin-bottom: 0.75rem;
+        padding: 1rem !important;
     }
     
     .stat-card h3 {
-        font-size: 2.5rem !important;
+        font-size: 2rem !important;
     }
     
     .stat-card p {
-        font-size: 0.9rem !important;
+        font-size: 0.85rem !important;
+    }
+    
+    .stat-card .icon {
+        font-size: 2rem !important;
+    }
+    
+    /* Card improvements */
+    .card {
+        margin-bottom: 1rem;
+        margin-left: 0.25rem;
+        margin-right: 0.25rem;
     }
     
     /* Card header improvements */
     .card-header {
-        padding: 0.75rem;
+        padding: 0.75rem 0.75rem;
+        font-size: 0.9rem;
     }
     
     .card-header .btn-sm {
         font-size: 0.75rem;
-        padding: 0.35rem 0.6rem;
+        padding: 0.3rem 0.5rem;
     }
     
     /* Better button text wrapping */
     .card-header .btn span {
         white-space: nowrap;
+    }
+    
+    /* Hide text on very small screens, show only icons */
+    .card-header .btn .d-none.d-sm-inline {
+        display: none !important;
+    }
+    
+    .card-header .btn .d-inline.d-sm-none {
+        display: inline !important;
+    }
+}
+
+/* Desktop - Maximize table width */
+@media (min-width: 992px) {
+    main.col-md-9.ms-sm-auto.col-lg-10 {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+    
+    .card-body {
+        padding: 0 !important;
+    }
+    
+    .table th,
+    .table td {
+        padding: 1rem 0.75rem;
+    }
+    
+    .table thead th {
+        padding: 1rem 0.75rem;
     }
 }

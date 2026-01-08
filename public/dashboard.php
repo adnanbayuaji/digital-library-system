@@ -30,8 +30,9 @@ $userModel = new User($db);
 
 // Fetch real statistics
 $totalBooks = $bookModel->getTotalCount();
+$totalCopies = $bookModel->getTotalCopiesCount();
 $availableBooks = $bookModel->getAvailableCount();
-$borrowedBooks = $totalBooks - $availableBooks;
+$borrowedBooks = $totalCopies - $availableBooks;
 $totalVisitors = $visitorModel->getTotalCount();
 
 ?>
@@ -53,7 +54,7 @@ $totalVisitors = $visitorModel->getTotalCount();
         <div class="col-md-6 col-lg-3 mb-4">
             <div class="stat-card bg-gradient-primary">
                 <div class="position-relative">
-                    <h3><?php echo $totalBooks; ?></h3>
+                    <h3><?php echo $totalCopies; ?></h3>
                     <p><?php echo __('dashboard.total_books'); ?></p>
                     <i class="bi bi-book icon"></i>
                 </div>
@@ -73,7 +74,7 @@ $totalVisitors = $visitorModel->getTotalCount();
         <div class="col-md-6 col-lg-3 mb-4">
             <div class="stat-card bg-gradient-warning">
                 <div class="position-relative">
-                    <h3><?php echo $borrowedBooks; ?></h3>
+                    <h3><?php echo $borrowedBooks >= 0 ? $borrowedBooks : 0; ?></h3>
                     <p><?php echo __('dashboard.borrowed_books'); ?></p>
                     <i class="bi bi-bookmark icon"></i>
                 </div>

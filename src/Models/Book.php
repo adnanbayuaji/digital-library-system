@@ -59,6 +59,12 @@ class Book {
         return $row['total'] ?? 0;
     }
 
+    public function getTotalCopiesCount() {
+        $result = $this->db->query("SELECT SUM(total_copies) as total FROM books");
+        $row = $result->fetch_assoc();
+        return $row['total'] ?? 0;
+    }
+
     public function getAvailableCount() {
         $result = $this->db->query("SELECT SUM(available_copies) as total FROM books");
         $row = $result->fetch_assoc();

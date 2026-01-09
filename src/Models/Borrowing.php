@@ -162,4 +162,43 @@ class Borrowing {
         
         return $stats;
     }
+
+    // Get monthly borrowing statistics for the last 6 months
+    public function getMonthlyStatistics($months = 6) {
+        $sql = "SELECT 
+                    DATE_FORMAT(borrowed_date, '%Y-%m') as month,
+                    DATE_FORMAT(borrowed_date, '%M %Y') as month_name,
+                    COUNT(*) as total_borrowed,
+                    SUM(CASE WHEN status = 'returned' THEN 1 ELSE 0 END) as total_returned,
+                    SUM(CASE WHEN status = 'borrowed' OR status = 'overdue' THEN 1 ELSE 0 END) as total_active
+                FROM borrowed_books
+                WHERE borrowed_date >= DATE_SUB(CURDATE(), INTERVAL ? MONTH)
+                GROUP BY DATE_FORMAT(borrowed_date, '%Y-%m'), DATE_FORMAT(borrowed_date, '%M %Y')
+                ORDER BY month ASC";
+        
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param("i", $months);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    // Get recent borrowing activities
+    public function getRecentActivities($limit = 10) {
+        $sql = "SELECT bb.*, u.username, u.full_name, b.title as book_title, b.author 
+                FROM borrowed_books bb
+                JOIN users u ON bb.user_id = u.id
+                JOIN books b ON bb.book_id = b.id
+                ORDER BY 
+                    CASE 
+                        WHEN bb.status = 'returned' THEN bb.returned_date
+                        ELSE bb.borrowed_date
+                    END DESC
+                LIMIT ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param("i", $limit);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
 }

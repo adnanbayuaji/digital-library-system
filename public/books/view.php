@@ -71,6 +71,16 @@ if ($bookId) {
                         <div class="col-md-8"><?php echo htmlspecialchars($book['published_year'] ?? '-'); ?></div>
                     </div>
                     <div class="row mb-3">
+                        <div class="col-md-4 fw-bold">Asal Buku:</div>
+                        <div class="col-md-8">
+                            <?php if (!empty($book['source'])): ?>
+                                <span class="badge bg-info fs-6"><?php echo htmlspecialchars($book['source']); ?></span>
+                            <?php else: ?>
+                                <span class="text-muted">-</span>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
                         <div class="col-md-4 fw-bold">Stok Tersedia:</div>
                         <div class="col-md-8">
                             <span class="badge bg-success fs-6"><?php echo htmlspecialchars($book['available_copies'] ?? 0); ?></span>
@@ -86,6 +96,16 @@ if ($bookId) {
                         <div class="col-md-4 fw-bold">Tanggal Input:</div>
                         <div class="col-md-8"><?php echo date('d/m/Y H:i', strtotime($book['created_at'])); ?></div>
                     </div>
+                    <?php if (!empty($book['description'])): ?>
+                    <div class="row mb-3">
+                        <div class="col-md-4 fw-bold">Keterangan:</div>
+                        <div class="col-md-8">
+                            <div class="alert alert-light mb-0">
+                                <?php echo nl2br(htmlspecialchars($book['description'])); ?>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endif; ?>
                 </div>
                 <div class="card-footer bg-light">
                     <div class="d-flex gap-2">

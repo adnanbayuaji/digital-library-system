@@ -19,34 +19,34 @@ INSERT INTO users (username, password, email, role, full_name, phone, created_at
 -- ============================================
 -- INSERT BOOKS
 -- ============================================
-INSERT INTO books (title, author, published_year, isbn, available_copies, total_copies, created_at) VALUES
+INSERT INTO books (title, author, published_year, isbn, source, available_copies, total_copies, created_at) VALUES
 -- Novel Indonesia
-('Laskar Pelangi', 'Andrea Hirata', 2005, '978-602-03-0000-1', 3, 5, '2024-01-10 08:00:00'),
-('Bumi Manusia', 'Pramoedya Ananta Toer', 1980, '978-602-03-0000-2', 2, 4, '2024-01-10 08:15:00'),
-('Ayat-Ayat Cinta', 'Habiburrahman El Shirazy', 2004, '978-602-03-0000-3', 4, 5, '2024-01-10 08:30:00'),
-('Perahu Kertas', 'Dee Lestari', 2009, '978-602-03-0000-4', 2, 3, '2024-01-10 08:45:00'),
-('Negeri 5 Menara', 'Ahmad Fuadi', 2009, '978-602-03-0000-5', 3, 4, '2024-01-10 09:00:00'),
+('Laskar Pelangi', 'Andrea Hirata', 2005, '978-602-03-0000-1', 'Donasi PT. Gramedia', 3, 5, '2024-01-10 08:00:00'),
+('Bumi Manusia', 'Pramoedya Ananta Toer', 1980, '978-602-03-0000-2', 'Hibah Perpustakaan Nasional', 2, 4, '2024-01-10 08:15:00'),
+('Ayat-Ayat Cinta', 'Habiburrahman El Shirazy', 2004, '978-602-03-0000-3', 'Pembelian Perpustakaan', 4, 5, '2024-01-10 08:30:00'),
+('Perahu Kertas', 'Dee Lestari', 2009, '978-602-03-0000-4', 'Donasi Alumni', 2, 3, '2024-01-10 08:45:00'),
+('Negeri 5 Menara', 'Ahmad Fuadi', 2009, '978-602-03-0000-5', 'Pembelian Perpustakaan', 3, 4, '2024-01-10 09:00:00'),
 
 -- Novel Dunia
-('Harry Potter and the Philosopher Stone', 'J.K. Rowling', 1997, '978-602-03-0000-6', 5, 6, '2024-01-11 08:00:00'),
-('The Hobbit', 'J.R.R. Tolkien', 1937, '978-602-03-0000-7', 2, 3, '2024-01-11 08:15:00'),
-('1984', 'George Orwell', 1949, '978-602-03-0000-8', 3, 4, '2024-01-11 08:30:00'),
-('To Kill a Mockingbird', 'Harper Lee', 1960, '978-602-03-0000-9', 2, 3, '2024-01-11 08:45:00'),
-('The Great Gatsby', 'F. Scott Fitzgerald', 1925, '978-602-03-0000-10', 3, 4, '2024-01-11 09:00:00'),
+('Harry Potter and the Philosopher Stone', 'J.K. Rowling', 1997, '978-602-03-0000-6', 'Donasi Komunitas Baca', 5, 6, '2024-01-11 08:00:00'),
+('The Hobbit', 'J.R.R. Tolkien', 1937, '978-602-03-0000-7', 'Hibah British Council', 2, 3, '2024-01-11 08:15:00'),
+('1984', 'George Orwell', 1949, '978-602-03-0000-8', 'Pembelian Perpustakaan', 3, 4, '2024-01-11 08:30:00'),
+('To Kill a Mockingbird', 'Harper Lee', 1960, '978-602-03-0000-9', 'Donasi Kedutaan Amerika', 2, 3, '2024-01-11 08:45:00'),
+('The Great Gatsby', 'F. Scott Fitzgerald', 1925, '978-602-03-0000-10', 'Pembelian Perpustakaan', 3, 4, '2024-01-11 09:00:00'),
 
 -- Non-Fiksi
-('Sejarah Indonesia Modern', 'Prof. Dr. Sartono Kartodirdjo', 2015, '978-602-03-0000-11', 4, 5, '2024-01-12 08:00:00'),
-('Pengantar Ilmu Komputer', 'Dr. Bambang Hariyanto', 2018, '978-602-03-0000-12', 3, 4, '2024-01-12 08:15:00'),
-('Ekonomi Makro', 'Prof. Sadono Sukirno', 2016, '978-602-03-0000-13', 5, 6, '2024-01-12 08:30:00'),
-('Filsafat Ilmu', 'Dr. Jujun S. Suriasumantri', 2017, '978-602-03-0000-14', 3, 4, '2024-01-12 08:45:00'),
-('Psikologi Pendidikan', 'Prof. Muhibbin Syah', 2019, '978-602-03-0000-15', 4, 5, '2024-01-12 09:00:00'),
+('Sejarah Indonesia Modern', 'Prof. Dr. Sartono Kartodirdjo', 2015, '978-602-03-0000-11', 'Hibah Kemendikbud', 4, 5, '2024-01-12 08:00:00'),
+('Pengantar Ilmu Komputer', 'Dr. Bambang Hariyanto', 2018, '978-602-03-0000-12', 'Pembelian Perpustakaan', 3, 4, '2024-01-12 08:15:00'),
+('Ekonomi Makro', 'Prof. Sadono Sukirno', 2016, '978-602-03-0000-13', 'Hibah Perpustakaan Universitas', 5, 6, '2024-01-12 08:30:00'),
+('Filsafat Ilmu', 'Dr. Jujun S. Suriasumantri', 2017, '978-602-03-0000-14', 'Pembelian Perpustakaan', 3, 4, '2024-01-12 08:45:00'),
+('Psikologi Pendidikan', 'Prof. Muhibbin Syah', 2019, '978-602-03-0000-15', 'Donasi Yayasan Pendidikan', 4, 5, '2024-01-12 09:00:00'),
 
 -- Teknologi & Programming
-('Clean Code', 'Robert C. Martin', 2008, '978-602-03-0000-16', 3, 4, '2024-01-13 08:00:00'),
-('Python for Data Science', 'Jake VanderPlas', 2016, '978-602-03-0000-17', 2, 3, '2024-01-13 08:15:00'),
-('Design Patterns', 'Gang of Four', 1994, '978-602-03-0000-18', 2, 3, '2024-01-13 08:30:00'),
-('The Pragmatic Programmer', 'Andrew Hunt', 1999, '978-602-03-0000-19', 3, 4, '2024-01-13 08:45:00'),
-('JavaScript: The Good Parts', 'Douglas Crockford', 2008, '978-602-03-0000-20', 4, 5, '2024-01-13 09:00:00');
+('Clean Code', 'Robert C. Martin', 2008, '978-602-03-0000-16', 'Donasi Perusahaan IT', 3, 4, '2024-01-13 08:00:00'),
+('Python for Data Science', 'Jake VanderPlas', 2016, '978-602-03-0000-17', 'Pembelian Perpustakaan', 2, 3, '2024-01-13 08:15:00'),
+('Design Patterns', 'Gang of Four', 1994, '978-602-03-0000-18', 'Hibah Komunitas Developer', 2, 3, '2024-01-13 08:30:00'),
+('The Pragmatic Programmer', 'Andrew Hunt', 1999, '978-602-03-0000-19', 'Pembelian Perpustakaan', 3, 4, '2024-01-13 08:45:00'),
+('JavaScript: The Good Parts', 'Douglas Crockford', 2008, '978-602-03-0000-20', 'Donasi Tech Community', 4, 5, '2024-01-13 09:00:00');
 
 -- ============================================
 -- INSERT VISITORS (Data Kunjungan)

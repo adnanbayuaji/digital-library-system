@@ -55,4 +55,12 @@ class User {
     public function verifyPassword($inputPassword, $storedHash) {
         return password_verify($inputPassword, $storedHash);
     }
+
+    public function getRecentUsers($limit = 5) {
+        $stmt = $this->db->prepare("SELECT id, username, full_name, email, role, created_at FROM users WHERE role = 'pengunjung' ORDER BY created_at DESC LIMIT ?");
+        $stmt->bind_param("i", $limit);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
 }

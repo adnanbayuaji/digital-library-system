@@ -1,6 +1,7 @@
 <?php
 // Session started by Session helper
 require_once '../../config/config.php';
+require_once '../../config/language.php';
 require_once '../../config/database.php';
 require_once '../../src/Models/Borrowing.php';
 require_once '../../src/Models/Book.php';

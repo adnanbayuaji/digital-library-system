@@ -7,11 +7,13 @@ require_once '../src/Helpers/Session.php';
 require_once '../src/Models/Book.php';
 require_once '../src/Models/Visitor.php';
 require_once '../src/Models/User.php';
+require_once '../src/Models/Borrowing.php';
 
 use App\Helpers\Session;
 use App\Models\Book;
 use App\Models\Visitor;
 use App\Models\User;
+use App\Models\Borrowing;
 
 // Check if user is logged in
 if (!Session::has('user_id')) {
@@ -27,6 +29,7 @@ $page_title = 'Dashboard';
 $bookModel = new Book($db);
 $visitorModel = new Visitor($db);
 $userModel = new User($db);
+$borrowingModel = new Borrowing($db);
 
 // Fetch real statistics
 $totalBooks = $bookModel->getTotalCount();
@@ -34,6 +37,72 @@ $totalCopies = $bookModel->getTotalCopiesCount();
 $availableBooks = $bookModel->getAvailableCount();
 $borrowedBooks = $totalCopies - $availableBooks;
 $totalVisitors = $visitorModel->getTotalCount();
+
+// Get monthly borrowing statistics for chart
+$monthlyStats = $borrowingModel->getMonthlyStatistics(6);
+
+// Get recent activities for admin dashboard
+if ($user_role === 'admin') {
+    $recentBooks = $bookModel->getRecentBooks(3);
+    $recentUsers = $userModel->getRecentUsers(3);
+    $recentBorrowings = $borrowingModel->getRecentActivities(10);
+    
+    // Combine all activities and sort by timestamp
+    $activities = [];
+    
+    // Add recent books
+    foreach ($recentBooks as $book) {
+        $activities[] = [
+            'type' => 'book',
+            'icon' => 'bi-book-fill',
+            'color' => 'primary',
+            'title' => 'Buku baru: ' . $book['title'],
+            'subtitle' => 'oleh ' . $book['author'],
+            'timestamp' => strtotime($book['created_at'])
+        ];
+    }
+    
+    // Add recent users
+    foreach ($recentUsers as $user) {
+        $activities[] = [
+            'type' => 'user',
+            'icon' => 'bi-person-check',
+            'color' => 'success',
+            'title' => 'Pengunjung baru: ' . ($user['full_name'] ?: $user['username']),
+            'subtitle' => $user['email'],
+            'timestamp' => strtotime($user['created_at'])
+        ];
+    }
+    
+    // Add borrowing activities
+    foreach ($recentBorrowings as $borrowing) {
+        if ($borrowing['status'] === 'returned') {
+            $activities[] = [
+                'type' => 'return',
+                'icon' => 'bi-arrow-return-left',
+                'color' => 'info',
+                'title' => ($borrowing['full_name'] ?: $borrowing['username']) . ' mengembalikan buku',
+                'subtitle' => $borrowing['book_title'],
+                'timestamp' => strtotime($borrowing['returned_date'])
+            ];
+        } else {
+            $activities[] = [
+                'type' => 'borrow',
+                'icon' => 'bi-bookmark-check',
+                'color' => 'warning',
+                'title' => ($borrowing['full_name'] ?: $borrowing['username']) . ' meminjam buku',
+                'subtitle' => $borrowing['book_title'],
+                'timestamp' => strtotime($borrowing['borrowed_date'])
+            ];
+        }
+    }
+    
+    // Sort by timestamp descending and limit to 5
+    usort($activities, function($a, $b) {
+        return $b['timestamp'] - $a['timestamp'];
+    });
+    $activities = array_slice($activities, 0, 5);
+}
 
 ?>
 
@@ -97,10 +166,10 @@ $totalVisitors = $visitorModel->getTotalCount();
         <div class="col-lg-6">
             <div class="card">
                 <div class="card-header">
-                    <i class="bi bi-graph-up"></i> Statistik Peminjaman
+                    <i class="bi bi-graph-up"></i> Statistik Peminjaman (6 Bulan Terakhir)
                 </div>
                 <div class="card-body">
-                    <canvas id="borrowingChart" height="200"></canvas>
+                    <canvas id="borrowingChart" height="250"></canvas>
                 </div>
             </div>
         </div>
@@ -112,27 +181,39 @@ $totalVisitors = $visitorModel->getTotalCount();
                 </div>
                 <div class="card-body">
                     <div class="list-group list-group-flush">
-                        <div class="list-group-item d-flex align-items-center">
-                            <i class="bi bi-book-fill text-primary me-3 fs-4"></i>
-                            <div>
-                                <h6 class="mb-0">Buku baru ditambahkan</h6>
-                                <small class="text-muted">5 menit yang lalu</small>
+                        <?php if (!empty($activities)): ?>
+                            <?php foreach ($activities as $activity): ?>
+                                <div class="list-group-item d-flex align-items-center">
+                                    <i class="bi <?php echo $activity['icon']; ?> text-<?php echo $activity['color']; ?> me-3 fs-4"></i>
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-0"><?php echo htmlspecialchars($activity['title']); ?></h6>
+                                        <small class="text-muted"><?php echo htmlspecialchars($activity['subtitle']); ?></small>
+                                        <br>
+                                        <small class="text-muted">
+                                            <?php 
+                                            $diff = time() - $activity['timestamp'];
+                                            if ($diff < 60) {
+                                                echo 'Baru saja';
+                                            } elseif ($diff < 3600) {
+                                                echo floor($diff / 60) . ' menit yang lalu';
+                                            } elseif ($diff < 86400) {
+                                                echo floor($diff / 3600) . ' jam yang lalu';
+                                            } elseif ($diff < 604800) {
+                                                echo floor($diff / 86400) . ' hari yang lalu';
+                                            } else {
+                                                echo date('d M Y', $activity['timestamp']);
+                                            }
+                                            ?>
+                                        </small>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <div class="list-group-item text-center text-muted">
+                                <i class="bi bi-inbox fs-1"></i>
+                                <p class="mb-0 mt-2">Belum ada aktivitas</p>
                             </div>
-                        </div>
-                        <div class="list-group-item d-flex align-items-center">
-                            <i class="bi bi-person-check text-success me-3 fs-4"></i>
-                            <div>
-                                <h6 class="mb-0">Pengunjung baru terdaftar</h6>
-                                <small class="text-muted">15 menit yang lalu</small>
-                            </div>
-                        </div>
-                        <div class="list-group-item d-flex align-items-center">
-                            <i class="bi bi-arrow-return-left text-info me-3 fs-4"></i>
-                            <div>
-                                <h6 class="mb-0">Buku dikembalikan</h6>
-                                <small class="text-muted">1 jam yang lalu</small>
-                            </div>
-                        </div>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -252,5 +333,81 @@ $totalVisitors = $visitorModel->getTotalCount();
     </div>
     <?php endif; ?>
 </main>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+<?php if ($user_role === 'admin'): ?>
+// Prepare data for chart
+const monthlyData = <?php echo json_encode($monthlyStats); ?>;
+
+// Extract labels and data
+const labels = monthlyData.map(item => item.month_name || 'N/A');
+const borrowedData = monthlyData.map(item => parseInt(item.total_borrowed) || 0);
+const returnedData = monthlyData.map(item => parseInt(item.total_returned) || 0);
+const activeData = monthlyData.map(item => parseInt(item.total_active) || 0);
+
+// Create chart
+const ctx = document.getElementById('borrowingChart').getContext('2d');
+const borrowingChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: labels,
+        datasets: [
+            {
+                label: 'Total Dipinjam',
+                data: borrowedData,
+                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            },
+            {
+                label: 'Dikembalikan',
+                data: returnedData,
+                backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            },
+            {
+                label: 'Aktif/Belum Kembali',
+                data: activeData,
+                backgroundColor: 'rgba(255, 159, 64, 0.6)',
+                borderColor: 'rgba(255, 159, 64, 1)',
+                borderWidth: 1
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+            legend: {
+                position: 'bottom',
+                labels: {
+                    padding: 15,
+                    font: {
+                        size: 12
+                    }
+                }
+            },
+            title: {
+                display: true,
+                text: 'Tren Peminjaman Buku',
+                font: {
+                    size: 16
+                }
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    stepSize: 1
+                }
+            }
+        }
+    }
+});
+<?php endif; ?>
+</script>
 
 <?php include 'layouts/footer.php'; ?>

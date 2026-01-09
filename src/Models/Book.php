@@ -70,4 +70,12 @@ class Book {
         $row = $result->fetch_assoc();
         return $row['total'] ?? 0;
     }
+
+    public function getRecentBooks($limit = 5) {
+        $stmt = $this->db->prepare("SELECT * FROM books ORDER BY created_at DESC LIMIT ?");
+        $stmt->bind_param("i", $limit);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
 }

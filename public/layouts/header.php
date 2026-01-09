@@ -1,6 +1,10 @@
 <?php
 // Load language configuration
 require_once __DIR__ . '/../../config/language.php';
+
+// Determine correct path to assets based on current location
+$current_dir = basename(dirname($_SERVER['PHP_SELF']));
+$assets_path = in_array($current_dir, ['books', 'visitors', 'reports', 'borrowings']) ? '../assets' : 'assets';
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo current_lang(); ?>">
@@ -12,12 +16,7 @@ require_once __DIR__ . '/../../config/language.php';
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
-    <?php
-    // Determine correct path to assets based on current location
-    $current_dir = basename(dirname($_SERVER['PHP_SELF']));
-    $assets_path = in_array($current_dir, ['books', 'visitors', 'reports', 'borrowings']) ? '../assets' : 'assets';
-    ?>
-    <link rel="stylesheet" href="<?php echo $assets_path; ?>/css/responsive.css">
+    <link rel="stylesheet" href="<?php echo $assets_path; ?>/css/responsive.css?v=<?php echo time(); ?>">
     <style>
         :root {
             --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -124,7 +123,6 @@ require_once __DIR__ . '/../../config/language.php';
         }
         
         .card {
-            border: none;
             border-radius: 15px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.08);
             margin-bottom: 1.5rem;
@@ -144,6 +142,8 @@ require_once __DIR__ . '/../../config/language.php';
             padding: 1rem 1.5rem;
             font-weight: 600;
         }
+        
+        /* Don't override card-body padding - let responsive.css handle it */
         
         .stat-card {
             padding: 1.5rem;

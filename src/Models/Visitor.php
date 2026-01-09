@@ -10,7 +10,11 @@ class Visitor {
     }
 
     public function addVisitor($name, $purpose) {
-        $stmt = $this->db->prepare("INSERT INTO visitors (name, purpose, visit_date) VALUES (?, ?, NOW())");
+        $stmt = $this->db->prepare("INSERT INTO visitors (name, visit_purpose, visit_date) VALUES (?, ?, NOW())");
+        if ($stmt === false) {
+            error_log("MySQL prepare error: " . $this->db->error);
+            return false;
+        }
         $stmt->bind_param("ss", $name, $purpose);
         return $stmt->execute();
     }
